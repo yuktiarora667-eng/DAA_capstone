@@ -1,0 +1,221 @@
+
+==============================================================================
+PHASE 1 - PROBLEM DESIGN AND PLANNING
+==============================================================================
+Dataset          : small_gurugram
+Depot            : node 0 (KRMU Hub (Sohna Rd))
+Road graph       : 11 nodes, 17 undirected weighted edges (km), connected = True
+Parcels          : 15  (total weight 175 kg)
+Van capacity     : 40 kg   speed 30 km/h   service 5 min/stop   reload 10 min
+
+Parcel attributes : id, destination node, weight (kg), value (importance score),
+                    deadline (hours after first dispatch), priority (1 low .. 5 urgent)
+Graph format      : adjacency list  adj[u] = [(v, km), ...]   (JSON: nodes + edges)
+
+Algorithm pipeline (one trip, repeated until all parcels are loaded):
+  parcels --> [MERGE SORT: deadline, priority] --> [0/1 KNAPSACK DP: best load for the van]
+          --> [DIJKSTRA: road distance between stops] --> [NEAREST-NEIGHBOUR TSP: visit order]
+          --> route + arrival times + deadline check
+
+Why these techniques
+  Merge sort   : O(n log n) guaranteed and stable -> ties keep their original order
+  Knapsack DP  : optimal load, O(n*W); greedy is faster but can miss the optimum
+  Dijkstra     : shortest ROAD path (not straight line) with non-negative km weights
+  NN TSP       : visiting order is NP-hard; nearest neighbour is a fast approximation
+                 (exact Held-Karp DP used only to measure the approximation error)
+
+==============================================================================
+PHASE 2 - PACKAGE PRIORITISATION AND BOX FILLING
+==============================================================================
+Step 2a: parcels sorted by (deadline asc, priority desc) using MERGE SORT
++--------+------+----+-------+-------------+------+
+| Parcel | Dest | kg | Value | Deadline(h) | Prio |
++--------+------+----+-------+-------------+------+
+| P01    | 5    | 8  | 50    | 2.0         | 5    |
+| P06    | 8    | 10 | 55    | 2.5         | 5    |
+| P03    | 7    | 5  | 45    | 3.0         | 4    |
+| P13    | 9    | 6  | 48    | 3.5         | 4    |
+| P02    | 3    | 12 | 35    | 4.0         | 3    |
+| P09    | 10   | 7  | 40    | 4.5         | 4    |
+| P07    | 2    | 4  | 25    | 5.0         | 3    |
+| P11    | 7    | 3  | 22    | 6.0         | 3    |
+| P05    | 1    | 6  | 20    | 6.0         | 2    |
+| P08    | 6    | 9  | 28    | 7.0         | 2    |
+| P04    | 9    | 15 | 30    | 8.0         | 2    |
+| P12    | 5    | 14 | 33    | 9.0         | 2    |
+| P10    | 4    | 11 | 18    | 10.0        | 1    |
+| P14    | 3    | 5  | 15    | 12.0        | 1    |
+| P15    | 4    | 60 | 10    | 20.0        | 1    |
++--------+------+----+-------+-------------+------+
+
+All sorting algorithms on this dataset (avg of 20 runs):
++-----------+--------+-------------------------+
+| Algorithm | ms     | Same order as reference |
++-----------+--------+-------------------------+
+| merge     | 0.0123 | yes                     |
+| quick     | 0.0236 | yes                     |
+| heap      | 0.0114 | yes                     |
+| insertion | 0.0041 | yes                     |
+| timsort   | 0.0012 | yes                     |
++-----------+--------+-------------------------+
+
+WARNING - parcels heavier than the van capacity (cannot be loaded): P15 (60 kg)
+
+Step 2b: 0/1 KNAPSACK (Dynamic Programming) for trip 1 - capacity 40 kg
+DP table (rows = parcels considered, columns = capacity in kg, every 5 kg)
+parcel (w,v)         0     5    10    15    20    25    30    35    40
+----------------------------------------------------------------------
+(none)               0     0     0     0     0     0     0     0     0
+P01 (8,50)           0     0    50    50    50    50    50    50    50
+P06 (10,55)          0     0    55    55   105   105   105   105   105
+P03 (5,45)           0    45    55   100   105   150   150   150   150
+P13 (6,48)           0    45    55   100   143   153   198   198   198
+P02 (12,35)          0    45    55   100   143   153   198   198   198
+P09 (7,40)           0    45    55   100   143   153   198   198   238
+P07 (4,25)           0    45    73   118   143   173   208   223   263
+P11 (3,22)           0    45    73   118   143   180   208   235   263
+P05 (6,20)           0    45    73   118   143   180   208   235   263
+P08 (9,28)           0    45    73   118   143   180   208   235   263
+P04 (15,30)          0    45    73   118   143   180   208   235   263
+P12 (14,33)          0    45    73   118   143   180   208   235   263
+P10 (11,18)          0    45    73   118   143   180   208   235   263
+P14 (5,15)           0    45    73   118   143   180   208   235   263
+
+Trip 1 optimal value = 263   load = 40/40 kg
+Selected parcels:
++--------+------+----+-------+-------------+------+
+| Parcel | Dest | kg | Value | Deadline(h) | Prio |
++--------+------+----+-------+-------------+------+
+| P01    | 5    | 8  | 50    | 2.0         | 5    |
+| P06    | 8    | 10 | 55    | 2.5         | 5    |
+| P03    | 7    | 5  | 45    | 3.0         | 4    |
+| P13    | 9    | 6  | 48    | 3.5         | 4    |
+| P09    | 10   | 7  | 40    | 4.5         | 4    |
+| P07    | 2    | 4  | 25    | 5.0         | 3    |
++--------+------+----+-------+-------------+------+
+Check: brute force over all 2^14 subsets gives value 263  -> DP is CORRECT
+Greedy (value/weight) would give 250 (95.1 % of the DP optimum)
+
+Packing plan (all trips):
++------+-------------------------+---------+-------+
+| Trip | Parcels                 | Load kg | Value |
++------+-------------------------+---------+-------+
+| 1    | P01 P06 P03 P13 P09 P07 | 40/40   | 263   |
+| 2    | P02 P11 P05 P12 P14     | 40/40   | 125   |
+| 3    | P08 P04 P10             | 35/40   | 76    |
++------+-------------------------+---------+-------+
+
+==============================================================================
+PHASE 3 - ROUTE MAKER AND GRAPH PROCESSING
+==============================================================================
+--- Trip 1 --- parcels: P01, P06, P03, P13, P09, P07
+Stops to visit : [2, 5, 7, 8, 9, 10]
+Dijkstra shortest-distance matrix (km):
++---------+------+------+------+------+------+------+------+
+| from\to | 0    | 2    | 5    | 7    | 8    | 9    | 10   |
++---------+------+------+------+------+------+------+------+
+| 0       | 0.0  | 10.1 | 21.9 | 27.5 | 26.7 | 33.1 | 23.2 |
+| 2       | 10.1 | 0.0  | 11.8 | 17.4 | 16.6 | 23.0 | 18.5 |
+| 5       | 21.9 | 11.8 | 0.0  | 5.6  | 11.2 | 11.2 | 6.7  |
+| 7       | 27.5 | 17.4 | 5.6  | 0.0  | 5.6  | 5.6  | 12.3 |
+| 8       | 26.7 | 16.6 | 11.2 | 5.6  | 0.0  | 7.9  | 17.9 |
+| 9       | 33.1 | 23.0 | 11.2 | 5.6  | 7.9  | 0.0  | 10.1 |
+| 10      | 23.2 | 18.5 | 6.7  | 12.3 | 17.9 | 10.1 | 0.0  |
++---------+------+------+------+------+------+------+------+
+Nearest-neighbour tour : [0, 2, 5, 7, 8, 9, 10, 0]
+   = KRMU Hub (Sohna Rd) -> Sector 49 -> HUDA City Centre -> MG Road -> Cyber Hub -> Udyog Vihar -> Sector 29 -> KRMU Hub (Sohna Rd)
+Full road path (11 nodes) : [0, 1, 2, 3, 5, 7, 8, 9, 10, 6, 0]
+Route length   : 74.3 km
+With 2-opt     : 74.3 km  (0.0 % shorter)
+Exact optimum  : 74.3 km  -> NN is 1.000 x optimal
+Schedule:
++--------+------------------+---------+----------+---------+
+| Parcel | Customer         | Arrival | Deadline | Status  |
++--------+------------------+---------+----------+---------+
+| P01    | HUDA City Centre | 00h49m  | 2h       | ON TIME |
+| P06    | Cyber Hub        | 01h21m  | 2.5h     | ON TIME |
+| P03    | MG Road          | 01h05m  | 3h       | ON TIME |
+| P13    | Udyog Vihar      | 01h42m  | 3.5h     | ON TIME |
+| P09    | Sector 29        | 02h07m  | 4.5h     | ON TIME |
+| P07    | Sector 49        | 00h20m  | 5h       | ON TIME |
++--------+------------------+---------+----------+---------+
+Trip time: leaves 00h00m, back at depot 02h59m
+
+--- Trip 2 --- parcels: P02, P11, P05, P12, P14
+Stops to visit : [1, 3, 5, 7]
+Dijkstra shortest-distance matrix (km):
++---------+------+------+------+------+------+
+| from\to | 0    | 1    | 3    | 5    | 7    |
++---------+------+------+------+------+------+
+| 0       | 0.0  | 5.6  | 16.3 | 21.9 | 27.5 |
+| 1       | 5.6  | 0.0  | 10.7 | 16.3 | 21.9 |
+| 3       | 16.3 | 10.7 | 0.0  | 5.6  | 11.2 |
+| 5       | 21.9 | 16.3 | 5.6  | 0.0  | 5.6  |
+| 7       | 27.5 | 21.9 | 11.2 | 5.6  | 0.0  |
++---------+------+------+------+------+------+
+Nearest-neighbour tour : [0, 1, 3, 5, 7, 0]
+   = KRMU Hub (Sohna Rd) -> Badshahpur -> Golf Course Ext -> HUDA City Centre -> MG Road -> KRMU Hub (Sohna Rd)
+Full road path (11 nodes) : [0, 1, 2, 3, 5, 7, 5, 3, 2, 1, 0]
+Route length   : 55.0 km
+With 2-opt     : 55.0 km  (0.0 % shorter)
+Exact optimum  : 55.0 km  -> NN is 1.000 x optimal
+Schedule:
++--------+------------------+---------+----------+---------+
+| Parcel | Customer         | Arrival | Deadline | Status  |
++--------+------------------+---------+----------+---------+
+| P02    | Golf Course Ext  | 03h46m  | 4h       | ON TIME |
+| P11    | MG Road          | 04h19m  | 6h       | ON TIME |
+| P05    | Badshahpur       | 03h20m  | 6h       | ON TIME |
+| P12    | HUDA City Centre | 04h02m  | 9h       | ON TIME |
+| P14    | Golf Course Ext  | 03h46m  | 12h      | ON TIME |
++--------+------------------+---------+----------+---------+
+Trip time: leaves 03h09m, back at depot 05h19m
+
+--- Trip 3 --- parcels: P08, P04, P10
+Stops to visit : [4, 6, 9]
+Dijkstra shortest-distance matrix (km):
++---------+------+------+------+------+
+| from\to | 0    | 4    | 6    | 9    |
++---------+------+------+------+------+
+| 0       | 0.0  | 17.7 | 17.0 | 33.1 |
+| 4       | 17.7 | 0.0  | 17.0 | 16.9 |
+| 6       | 17.0 | 17.0 | 0.0  | 16.3 |
+| 9       | 33.1 | 16.9 | 16.3 | 0.0  |
++---------+------+------+------+------+
+Nearest-neighbour tour : [0, 6, 9, 4, 0]
+   = KRMU Hub (Sohna Rd) -> Sector 14 -> Udyog Vihar -> Sector 56 -> KRMU Hub (Sohna Rd)
+Full road path (9 nodes) : [0, 6, 10, 9, 8, 4, 2, 1, 0]
+Route length   : 67.9 km
+With 2-opt     : 67.9 km  (0.0 % shorter)
+Exact optimum  : 67.9 km  -> NN is 1.000 x optimal
+Schedule:
++--------+-------------+---------+----------+---------+
+| Parcel | Customer    | Arrival | Deadline | Status  |
++--------+-------------+---------+----------+---------+
+| P08    | Sector 14   | 06h03m  | 7h       | ON TIME |
+| P04    | Udyog Vihar | 06h40m  | 8h       | ON TIME |
+| P10    | Sector 56   | 07h19m  | 10h      | ON TIME |
++--------+-------------+---------+----------+---------+
+Trip time: leaves 05h29m, back at depot 07h59m
+
+
+==============================================================================
+FINAL SUMMARY
+==============================================================================
+Dataset              : small_gurugram
+Parcels delivered    : 14 / 15   (not loadable: P15)
+Trips needed         : 3
+Total distance       : 197.2 km
+Finished all trips at: 07h59m
+Deadlines missed     : 0 of 14
+
+Algorithm time per step:
++----------+----------+--------+
+| Step     | Time     | Share  |
++----------+----------+--------+
+| sorting  | 0.020 ms | 7.7 %  |
+| knapsack | 0.074 ms | 27.8 % |
+| dijkstra | 0.134 ms | 50.0 % |
+| tsp      | 0.039 ms | 14.6 % |
++----------+----------+--------+
+Average nearest-neighbour / optimal ratio over 3 trips: 1.000

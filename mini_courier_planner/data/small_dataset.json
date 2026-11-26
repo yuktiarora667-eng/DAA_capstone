@@ -1,0 +1,285 @@
+{
+ "name": "small_gurugram",
+ "depot": 0,
+ "capacity_kg": 40,
+ "speed_kmph": 30.0,
+ "service_minutes": 5.0,
+ "loading_minutes": 10.0,
+ "nodes": [
+  {
+   "id": 0,
+   "name": "KRMU Hub (Sohna Rd)",
+   "x": 10.0,
+   "y": 2.0
+  },
+  {
+   "id": 1,
+   "name": "Badshahpur",
+   "x": 12.0,
+   "y": 6.0
+  },
+  {
+   "id": 2,
+   "name": "Sector 49",
+   "x": 14.0,
+   "y": 9.0
+  },
+  {
+   "id": 3,
+   "name": "Golf Course Ext",
+   "x": 18.0,
+   "y": 12.0
+  },
+  {
+   "id": 4,
+   "name": "Sector 56",
+   "x": 20.0,
+   "y": 10.0
+  },
+  {
+   "id": 5,
+   "name": "HUDA City Centre",
+   "x": 16.0,
+   "y": 16.0
+  },
+  {
+   "id": 6,
+   "name": "Sector 14",
+   "x": 10.0,
+   "y": 18.0
+  },
+  {
+   "id": 7,
+   "name": "MG Road",
+   "x": 20.0,
+   "y": 18.0
+  },
+  {
+   "id": 8,
+   "name": "Cyber Hub",
+   "x": 24.0,
+   "y": 16.0
+  },
+  {
+   "id": 9,
+   "name": "Udyog Vihar",
+   "x": 22.0,
+   "y": 22.0
+  },
+  {
+   "id": 10,
+   "name": "Sector 29",
+   "x": 14.0,
+   "y": 21.0
+  }
+ ],
+ "edges": [
+  [
+   0,
+   1,
+   5.6
+  ],
+  [
+   0,
+   6,
+   17.0
+  ],
+  [
+   1,
+   2,
+   4.5
+  ],
+  [
+   1,
+   6,
+   14.0
+  ],
+  [
+   2,
+   3,
+   6.2
+  ],
+  [
+   2,
+   4,
+   7.6
+  ],
+  [
+   3,
+   4,
+   3.5
+  ],
+  [
+   3,
+   5,
+   5.6
+  ],
+  [
+   4,
+   8,
+   9.0
+  ],
+  [
+   5,
+   6,
+   7.9
+  ],
+  [
+   5,
+   7,
+   5.6
+  ],
+  [
+   5,
+   10,
+   6.7
+  ],
+  [
+   6,
+   10,
+   6.2
+  ],
+  [
+   7,
+   8,
+   5.6
+  ],
+  [
+   7,
+   9,
+   5.6
+  ],
+  [
+   8,
+   9,
+   7.9
+  ],
+  [
+   9,
+   10,
+   10.1
+  ]
+ ],
+ "parcels": [
+  {
+   "id": "P01",
+   "destination": 5,
+   "weight": 8,
+   "value": 50,
+   "deadline_h": 2.0,
+   "priority": 5
+  },
+  {
+   "id": "P02",
+   "destination": 3,
+   "weight": 12,
+   "value": 35,
+   "deadline_h": 4.0,
+   "priority": 3
+  },
+  {
+   "id": "P03",
+   "destination": 7,
+   "weight": 5,
+   "value": 45,
+   "deadline_h": 3.0,
+   "priority": 4
+  },
+  {
+   "id": "P04",
+   "destination": 9,
+   "weight": 15,
+   "value": 30,
+   "deadline_h": 8.0,
+   "priority": 2
+  },
+  {
+   "id": "P05",
+   "destination": 1,
+   "weight": 6,
+   "value": 20,
+   "deadline_h": 6.0,
+   "priority": 2
+  },
+  {
+   "id": "P06",
+   "destination": 8,
+   "weight": 10,
+   "value": 55,
+   "deadline_h": 2.5,
+   "priority": 5
+  },
+  {
+   "id": "P07",
+   "destination": 2,
+   "weight": 4,
+   "value": 25,
+   "deadline_h": 5.0,
+   "priority": 3
+  },
+  {
+   "id": "P08",
+   "destination": 6,
+   "weight": 9,
+   "value": 28,
+   "deadline_h": 7.0,
+   "priority": 2
+  },
+  {
+   "id": "P09",
+   "destination": 10,
+   "weight": 7,
+   "value": 40,
+   "deadline_h": 4.5,
+   "priority": 4
+  },
+  {
+   "id": "P10",
+   "destination": 4,
+   "weight": 11,
+   "value": 18,
+   "deadline_h": 10.0,
+   "priority": 1
+  },
+  {
+   "id": "P11",
+   "destination": 7,
+   "weight": 3,
+   "value": 22,
+   "deadline_h": 6.0,
+   "priority": 3
+  },
+  {
+   "id": "P12",
+   "destination": 5,
+   "weight": 14,
+   "value": 33,
+   "deadline_h": 9.0,
+   "priority": 2
+  },
+  {
+   "id": "P13",
+   "destination": 9,
+   "weight": 6,
+   "value": 48,
+   "deadline_h": 3.5,
+   "priority": 4
+  },
+  {
+   "id": "P14",
+   "destination": 3,
+   "weight": 5,
+   "value": 15,
+   "deadline_h": 12.0,
+   "priority": 1
+  },
+  {
+   "id": "P15",
+   "destination": 4,
+   "weight": 60,
+   "value": 10,
+   "deadline_h": 20.0,
+   "priority": 1
+  }
+ ]
+}

@@ -1,0 +1,1159 @@
+{
+ "name": "medium_random",
+ "depot": 0,
+ "capacity_kg": 60,
+ "speed_kmph": 40.0,
+ "service_minutes": 5.0,
+ "loading_minutes": 10.0,
+ "nodes": [
+  {
+   "id": 0,
+   "name": "Depot",
+   "x": 9.7,
+   "y": 4.5
+  },
+  {
+   "id": 1,
+   "name": "Stop-1",
+   "x": 19.5,
+   "y": 2.2
+  },
+  {
+   "id": 2,
+   "name": "Stop-2",
+   "x": 16.1,
+   "y": 11.0
+  },
+  {
+   "id": 3,
+   "name": "Stop-3",
+   "x": 1.7,
+   "y": 15.2
+  },
+  {
+   "id": 4,
+   "name": "Stop-4",
+   "x": 1.1,
+   "y": 13.0
+  },
+  {
+   "id": 5,
+   "name": "Stop-5",
+   "x": 2.1,
+   "y": 2.7
+  },
+  {
+   "id": 6,
+   "name": "Stop-6",
+   "x": 12.7,
+   "y": 24.8
+  },
+  {
+   "id": 7,
+   "name": "Stop-7",
+   "x": 3.7,
+   "y": 6.7
+  },
+  {
+   "id": 8,
+   "name": "Stop-8",
+   "x": 18.8,
+   "y": 28.4
+  },
+  {
+   "id": 9,
+   "name": "Stop-9",
+   "x": 17.3,
+   "y": 11.9
+  },
+  {
+   "id": 10,
+   "name": "Stop-10",
+   "x": 29.3,
+   "y": 1.4
+  },
+  {
+   "id": 11,
+   "name": "Stop-11",
+   "x": 25.8,
+   "y": 8.7
+  },
+  {
+   "id": 12,
+   "name": "Stop-12",
+   "x": 4.3,
+   "y": 3.5
+  },
+  {
+   "id": 13,
+   "name": "Stop-13",
+   "x": 9.3,
+   "y": 24.5
+  },
+  {
+   "id": 14,
+   "name": "Stop-14",
+   "x": 5.4,
+   "y": 17.4
+  },
+  {
+   "id": 15,
+   "name": "Stop-15",
+   "x": 19.2,
+   "y": 11.2
+  },
+  {
+   "id": 16,
+   "name": "Stop-16",
+   "x": 16.4,
+   "y": 1.9
+  },
+  {
+   "id": 17,
+   "name": "Stop-17",
+   "x": 1.8,
+   "y": 6.2
+  },
+  {
+   "id": 18,
+   "name": "Stop-18",
+   "x": 20.4,
+   "y": 12.8
+  },
+  {
+   "id": 19,
+   "name": "Stop-19",
+   "x": 9.4,
+   "y": 17.6
+  },
+  {
+   "id": 20,
+   "name": "Stop-20",
+   "x": 13.6,
+   "y": 9.0
+  },
+  {
+   "id": 21,
+   "name": "Stop-21",
+   "x": 23.8,
+   "y": 21.0
+  },
+  {
+   "id": 22,
+   "name": "Stop-22",
+   "x": 7.3,
+   "y": 17.2
+  },
+  {
+   "id": 23,
+   "name": "Stop-23",
+   "x": 15.8,
+   "y": 26.3
+  },
+  {
+   "id": 24,
+   "name": "Stop-24",
+   "x": 21.9,
+   "y": 8.6
+  },
+  {
+   "id": 25,
+   "name": "Stop-25",
+   "x": 29.4,
+   "y": 3.5
+  },
+  {
+   "id": 26,
+   "name": "Stop-26",
+   "x": 12.5,
+   "y": 22.7
+  },
+  {
+   "id": 27,
+   "name": "Stop-27",
+   "x": 4.6,
+   "y": 14.7
+  },
+  {
+   "id": 28,
+   "name": "Stop-28",
+   "x": 1.2,
+   "y": 20.0
+  },
+  {
+   "id": 29,
+   "name": "Stop-29",
+   "x": 22.9,
+   "y": 17.2
+  },
+  {
+   "id": 30,
+   "name": "Stop-30",
+   "x": 26.3,
+   "y": 9.4
+  },
+  {
+   "id": 31,
+   "name": "Stop-31",
+   "x": 20.9,
+   "y": 17.8
+  },
+  {
+   "id": 32,
+   "name": "Stop-32",
+   "x": 17.4,
+   "y": 13.7
+  },
+  {
+   "id": 33,
+   "name": "Stop-33",
+   "x": 25.2,
+   "y": 28.3
+  },
+  {
+   "id": 34,
+   "name": "Stop-34",
+   "x": 14.2,
+   "y": 19.9
+  },
+  {
+   "id": 35,
+   "name": "Stop-35",
+   "x": 1.8,
+   "y": 21.0
+  },
+  {
+   "id": 36,
+   "name": "Stop-36",
+   "x": 19.4,
+   "y": 29.8
+  },
+  {
+   "id": 37,
+   "name": "Stop-37",
+   "x": 24.7,
+   "y": 8.5
+  },
+  {
+   "id": 38,
+   "name": "Stop-38",
+   "x": 11.6,
+   "y": 20.1
+  },
+  {
+   "id": 39,
+   "name": "Stop-39",
+   "x": 0.7,
+   "y": 13.9
+  }
+ ],
+ "edges": [
+  [
+   0,
+   12,
+   5.9
+  ],
+  [
+   0,
+   16,
+   7.4
+  ],
+  [
+   0,
+   20,
+   6.3
+  ],
+  [
+   1,
+   16,
+   4.0
+  ],
+  [
+   1,
+   24,
+   8.5
+  ],
+  [
+   2,
+   9,
+   1.8
+  ],
+  [
+   2,
+   20,
+   3.5
+  ],
+  [
+   2,
+   32,
+   3.8
+  ],
+  [
+   3,
+   4,
+   2.6
+  ],
+  [
+   3,
+   27,
+   3.2
+  ],
+  [
+   3,
+   28,
+   5.9
+  ],
+  [
+   3,
+   39,
+   1.9
+  ],
+  [
+   4,
+   7,
+   7.2
+  ],
+  [
+   4,
+   39,
+   1.1
+  ],
+  [
+   5,
+   12,
+   2.5
+  ],
+  [
+   5,
+   17,
+   4.0
+  ],
+  [
+   6,
+   13,
+   4.5
+  ],
+  [
+   6,
+   23,
+   4.3
+  ],
+  [
+   6,
+   26,
+   2.6
+  ],
+  [
+   7,
+   12,
+   3.4
+  ],
+  [
+   7,
+   17,
+   2.5
+  ],
+  [
+   8,
+   23,
+   4.3
+  ],
+  [
+   8,
+   33,
+   6.6
+  ],
+  [
+   8,
+   36,
+   1.9
+  ],
+  [
+   9,
+   15,
+   2.2
+  ],
+  [
+   9,
+   20,
+   5.1
+  ],
+  [
+   9,
+   32,
+   2.4
+  ],
+  [
+   10,
+   11,
+   8.4
+  ],
+  [
+   10,
+   25,
+   2.8
+  ],
+  [
+   11,
+   25,
+   8.1
+  ],
+  [
+   11,
+   30,
+   1.2
+  ],
+  [
+   11,
+   37,
+   1.5
+  ],
+  [
+   13,
+   26,
+   4.5
+  ],
+  [
+   14,
+   22,
+   2.3
+  ],
+  [
+   14,
+   27,
+   3.3
+  ],
+  [
+   14,
+   35,
+   5.4
+  ],
+  [
+   15,
+   18,
+   2.4
+  ],
+  [
+   15,
+   24,
+   4.5
+  ],
+  [
+   18,
+   31,
+   5.5
+  ],
+  [
+   18,
+   32,
+   3.3
+  ],
+  [
+   19,
+   22,
+   2.4
+  ],
+  [
+   19,
+   38,
+   3.4
+  ],
+  [
+   21,
+   29,
+   4.4
+  ],
+  [
+   21,
+   31,
+   4.6
+  ],
+  [
+   23,
+   36,
+   5.3
+  ],
+  [
+   24,
+   37,
+   3.6
+  ],
+  [
+   26,
+   34,
+   3.4
+  ],
+  [
+   26,
+   38,
+   3.2
+  ],
+  [
+   28,
+   35,
+   1.3
+  ],
+  [
+   29,
+   31,
+   2.4
+  ],
+  [
+   30,
+   37,
+   2.1
+  ],
+  [
+   33,
+   36,
+   7.7
+  ],
+  [
+   34,
+   38,
+   3.0
+  ]
+ ],
+ "parcels": [
+  {
+   "id": "P001",
+   "destination": 12,
+   "weight": 13,
+   "value": 15,
+   "deadline_h": 86.5,
+   "priority": 1
+  },
+  {
+   "id": "P002",
+   "destination": 36,
+   "weight": 9,
+   "value": 21,
+   "deadline_h": 54.5,
+   "priority": 2
+  },
+  {
+   "id": "P003",
+   "destination": 3,
+   "weight": 8,
+   "value": 19,
+   "deadline_h": 72.0,
+   "priority": 1
+  },
+  {
+   "id": "P004",
+   "destination": 5,
+   "weight": 7,
+   "value": 16,
+   "deadline_h": 25.5,
+   "priority": 1
+  },
+  {
+   "id": "P005",
+   "destination": 28,
+   "weight": 11,
+   "value": 11,
+   "deadline_h": 87.0,
+   "priority": 1
+  },
+  {
+   "id": "P006",
+   "destination": 22,
+   "weight": 5,
+   "value": 37,
+   "deadline_h": 48.0,
+   "priority": 3
+  },
+  {
+   "id": "P007",
+   "destination": 1,
+   "weight": 6,
+   "value": 52,
+   "deadline_h": 16.0,
+   "priority": 5
+  },
+  {
+   "id": "P008",
+   "destination": 26,
+   "weight": 10,
+   "value": 24,
+   "deadline_h": 14.5,
+   "priority": 1
+  },
+  {
+   "id": "P009",
+   "destination": 3,
+   "weight": 13,
+   "value": 43,
+   "deadline_h": 21.5,
+   "priority": 3
+  },
+  {
+   "id": "P010",
+   "destination": 13,
+   "weight": 5,
+   "value": 53,
+   "deadline_h": 14.0,
+   "priority": 4
+  },
+  {
+   "id": "P011",
+   "destination": 12,
+   "weight": 9,
+   "value": 25,
+   "deadline_h": 46.0,
+   "priority": 1
+  },
+  {
+   "id": "P012",
+   "destination": 24,
+   "weight": 4,
+   "value": 43,
+   "deadline_h": 17.5,
+   "priority": 4
+  },
+  {
+   "id": "P013",
+   "destination": 10,
+   "weight": 6,
+   "value": 30,
+   "deadline_h": 15.0,
+   "priority": 3
+  },
+  {
+   "id": "P014",
+   "destination": 36,
+   "weight": 12,
+   "value": 42,
+   "deadline_h": 72.0,
+   "priority": 3
+  },
+  {
+   "id": "P015",
+   "destination": 17,
+   "weight": 14,
+   "value": 33,
+   "deadline_h": 61.5,
+   "priority": 3
+  },
+  {
+   "id": "P016",
+   "destination": 16,
+   "weight": 4,
+   "value": 15,
+   "deadline_h": 33.0,
+   "priority": 1
+  },
+  {
+   "id": "P017",
+   "destination": 30,
+   "weight": 13,
+   "value": 31,
+   "deadline_h": 41.0,
+   "priority": 3
+  },
+  {
+   "id": "P018",
+   "destination": 14,
+   "weight": 13,
+   "value": 52,
+   "deadline_h": 22.5,
+   "priority": 4
+  },
+  {
+   "id": "P019",
+   "destination": 38,
+   "weight": 10,
+   "value": 52,
+   "deadline_h": 18.5,
+   "priority": 5
+  },
+  {
+   "id": "P020",
+   "destination": 32,
+   "weight": 14,
+   "value": 20,
+   "deadline_h": 72.5,
+   "priority": 2
+  },
+  {
+   "id": "P021",
+   "destination": 34,
+   "weight": 8,
+   "value": 38,
+   "deadline_h": 72.5,
+   "priority": 3
+  },
+  {
+   "id": "P022",
+   "destination": 2,
+   "weight": 11,
+   "value": 45,
+   "deadline_h": 10.0,
+   "priority": 4
+  },
+  {
+   "id": "P023",
+   "destination": 29,
+   "weight": 13,
+   "value": 29,
+   "deadline_h": 10.5,
+   "priority": 2
+  },
+  {
+   "id": "P024",
+   "destination": 26,
+   "weight": 8,
+   "value": 48,
+   "deadline_h": 5.5,
+   "priority": 4
+  },
+  {
+   "id": "P025",
+   "destination": 12,
+   "weight": 11,
+   "value": 43,
+   "deadline_h": 55.5,
+   "priority": 3
+  },
+  {
+   "id": "P026",
+   "destination": 32,
+   "weight": 3,
+   "value": 63,
+   "deadline_h": 7.0,
+   "priority": 5
+  },
+  {
+   "id": "P027",
+   "destination": 2,
+   "weight": 15,
+   "value": 23,
+   "deadline_h": 48.0,
+   "priority": 2
+  },
+  {
+   "id": "P028",
+   "destination": 13,
+   "weight": 10,
+   "value": 65,
+   "deadline_h": 53.0,
+   "priority": 5
+  },
+  {
+   "id": "P029",
+   "destination": 32,
+   "weight": 8,
+   "value": 59,
+   "deadline_h": 24.5,
+   "priority": 5
+  },
+  {
+   "id": "P030",
+   "destination": 4,
+   "weight": 5,
+   "value": 27,
+   "deadline_h": 80.5,
+   "priority": 2
+  },
+  {
+   "id": "P031",
+   "destination": 1,
+   "weight": 2,
+   "value": 28,
+   "deadline_h": 45.5,
+   "priority": 2
+  },
+  {
+   "id": "P032",
+   "destination": 22,
+   "weight": 12,
+   "value": 23,
+   "deadline_h": 49.0,
+   "priority": 2
+  },
+  {
+   "id": "P033",
+   "destination": 14,
+   "weight": 5,
+   "value": 34,
+   "deadline_h": 6.0,
+   "priority": 2
+  },
+  {
+   "id": "P034",
+   "destination": 30,
+   "weight": 1,
+   "value": 61,
+   "deadline_h": 38.0,
+   "priority": 5
+  },
+  {
+   "id": "P035",
+   "destination": 21,
+   "weight": 5,
+   "value": 23,
+   "deadline_h": 81.0,
+   "priority": 1
+  },
+  {
+   "id": "P036",
+   "destination": 8,
+   "weight": 4,
+   "value": 12,
+   "deadline_h": 31.5,
+   "priority": 1
+  },
+  {
+   "id": "P037",
+   "destination": 19,
+   "weight": 13,
+   "value": 34,
+   "deadline_h": 30.5,
+   "priority": 2
+  },
+  {
+   "id": "P038",
+   "destination": 4,
+   "weight": 3,
+   "value": 49,
+   "deadline_h": 54.0,
+   "priority": 4
+  },
+  {
+   "id": "P039",
+   "destination": 11,
+   "weight": 5,
+   "value": 42,
+   "deadline_h": 40.5,
+   "priority": 3
+  },
+  {
+   "id": "P040",
+   "destination": 2,
+   "weight": 15,
+   "value": 22,
+   "deadline_h": 73.0,
+   "priority": 1
+  },
+  {
+   "id": "P041",
+   "destination": 33,
+   "weight": 4,
+   "value": 25,
+   "deadline_h": 72.5,
+   "priority": 1
+  },
+  {
+   "id": "P042",
+   "destination": 5,
+   "weight": 6,
+   "value": 10,
+   "deadline_h": 69.5,
+   "priority": 1
+  },
+  {
+   "id": "P043",
+   "destination": 38,
+   "weight": 9,
+   "value": 56,
+   "deadline_h": 23.5,
+   "priority": 5
+  },
+  {
+   "id": "P044",
+   "destination": 26,
+   "weight": 7,
+   "value": 51,
+   "deadline_h": 60.0,
+   "priority": 4
+  },
+  {
+   "id": "P045",
+   "destination": 18,
+   "weight": 10,
+   "value": 30,
+   "deadline_h": 46.5,
+   "priority": 3
+  },
+  {
+   "id": "P046",
+   "destination": 13,
+   "weight": 14,
+   "value": 28,
+   "deadline_h": 4.5,
+   "priority": 2
+  },
+  {
+   "id": "P047",
+   "destination": 15,
+   "weight": 10,
+   "value": 55,
+   "deadline_h": 64.5,
+   "priority": 4
+  },
+  {
+   "id": "P048",
+   "destination": 2,
+   "weight": 8,
+   "value": 49,
+   "deadline_h": 13.5,
+   "priority": 4
+  },
+  {
+   "id": "P049",
+   "destination": 32,
+   "weight": 11,
+   "value": 59,
+   "deadline_h": 60.0,
+   "priority": 5
+  },
+  {
+   "id": "P050",
+   "destination": 3,
+   "weight": 14,
+   "value": 65,
+   "deadline_h": 45.0,
+   "priority": 5
+  },
+  {
+   "id": "P051",
+   "destination": 8,
+   "weight": 14,
+   "value": 44,
+   "deadline_h": 58.0,
+   "priority": 3
+  },
+  {
+   "id": "P052",
+   "destination": 6,
+   "weight": 12,
+   "value": 41,
+   "deadline_h": 55.0,
+   "priority": 4
+  },
+  {
+   "id": "P053",
+   "destination": 27,
+   "weight": 3,
+   "value": 41,
+   "deadline_h": 33.0,
+   "priority": 3
+  },
+  {
+   "id": "P054",
+   "destination": 3,
+   "weight": 2,
+   "value": 17,
+   "deadline_h": 31.5,
+   "priority": 1
+  },
+  {
+   "id": "P055",
+   "destination": 7,
+   "weight": 4,
+   "value": 55,
+   "deadline_h": 42.5,
+   "priority": 4
+  },
+  {
+   "id": "P056",
+   "destination": 32,
+   "weight": 8,
+   "value": 18,
+   "deadline_h": 82.5,
+   "priority": 1
+  },
+  {
+   "id": "P057",
+   "destination": 25,
+   "weight": 3,
+   "value": 51,
+   "deadline_h": 17.0,
+   "priority": 4
+  },
+  {
+   "id": "P058",
+   "destination": 32,
+   "weight": 11,
+   "value": 15,
+   "deadline_h": 35.5,
+   "priority": 1
+  },
+  {
+   "id": "P059",
+   "destination": 37,
+   "weight": 9,
+   "value": 48,
+   "deadline_h": 23.5,
+   "priority": 4
+  },
+  {
+   "id": "P060",
+   "destination": 29,
+   "weight": 3,
+   "value": 50,
+   "deadline_h": 51.0,
+   "priority": 5
+  },
+  {
+   "id": "P061",
+   "destination": 5,
+   "weight": 4,
+   "value": 44,
+   "deadline_h": 29.0,
+   "priority": 3
+  },
+  {
+   "id": "P062",
+   "destination": 24,
+   "weight": 7,
+   "value": 55,
+   "deadline_h": 45.0,
+   "priority": 5
+  },
+  {
+   "id": "P063",
+   "destination": 24,
+   "weight": 12,
+   "value": 61,
+   "deadline_h": 46.0,
+   "priority": 5
+  },
+  {
+   "id": "P064",
+   "destination": 15,
+   "weight": 12,
+   "value": 45,
+   "deadline_h": 35.5,
+   "priority": 4
+  },
+  {
+   "id": "P065",
+   "destination": 39,
+   "weight": 7,
+   "value": 54,
+   "deadline_h": 21.5,
+   "priority": 5
+  },
+  {
+   "id": "P066",
+   "destination": 27,
+   "weight": 6,
+   "value": 55,
+   "deadline_h": 17.5,
+   "priority": 4
+  },
+  {
+   "id": "P067",
+   "destination": 25,
+   "weight": 7,
+   "value": 42,
+   "deadline_h": 44.5,
+   "priority": 3
+  },
+  {
+   "id": "P068",
+   "destination": 26,
+   "weight": 3,
+   "value": 21,
+   "deadline_h": 95.5,
+   "priority": 1
+  },
+  {
+   "id": "P069",
+   "destination": 11,
+   "weight": 11,
+   "value": 21,
+   "deadline_h": 94.5,
+   "priority": 1
+  },
+  {
+   "id": "P070",
+   "destination": 4,
+   "weight": 13,
+   "value": 34,
+   "deadline_h": 50.5,
+   "priority": 2
+  },
+  {
+   "id": "P071",
+   "destination": 28,
+   "weight": 11,
+   "value": 45,
+   "deadline_h": 45.5,
+   "priority": 3
+  },
+  {
+   "id": "P072",
+   "destination": 10,
+   "weight": 7,
+   "value": 54,
+   "deadline_h": 46.0,
+   "priority": 5
+  },
+  {
+   "id": "P073",
+   "destination": 13,
+   "weight": 4,
+   "value": 54,
+   "deadline_h": 19.5,
+   "priority": 5
+  },
+  {
+   "id": "P074",
+   "destination": 16,
+   "weight": 9,
+   "value": 24,
+   "deadline_h": 91.0,
+   "priority": 1
+  },
+  {
+   "id": "P075",
+   "destination": 31,
+   "weight": 1,
+   "value": 21,
+   "deadline_h": 5.5,
+   "priority": 2
+  },
+  {
+   "id": "P076",
+   "destination": 8,
+   "weight": 10,
+   "value": 64,
+   "deadline_h": 10.5,
+   "priority": 5
+  },
+  {
+   "id": "P077",
+   "destination": 31,
+   "weight": 11,
+   "value": 42,
+   "deadline_h": 9.0,
+   "priority": 3
+  },
+  {
+   "id": "P078",
+   "destination": 23,
+   "weight": 15,
+   "value": 25,
+   "deadline_h": 71.5,
+   "priority": 1
+  },
+  {
+   "id": "P079",
+   "destination": 14,
+   "weight": 9,
+   "value": 45,
+   "deadline_h": 62.0,
+   "priority": 4
+  },
+  {
+   "id": "P080",
+   "destination": 12,
+   "weight": 15,
+   "value": 38,
+   "deadline_h": 45.0,
+   "priority": 3
+  }
+ ]
+}

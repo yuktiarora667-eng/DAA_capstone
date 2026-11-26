@@ -1,0 +1,183 @@
+
+==============================================================================
+PHASE 1 - PROBLEM DESIGN AND PLANNING
+==============================================================================
+Dataset          : medium_random
+Depot            : node 0 (Depot)
+Road graph       : 40 nodes, 53 undirected weighted edges (km), connected = True
+Parcels          : 80  (total weight 679 kg)
+Van capacity     : 60 kg   speed 40 km/h   service 5 min/stop   reload 10 min
+
+Parcel attributes : id, destination node, weight (kg), value (importance score),
+                    deadline (hours after first dispatch), priority (1 low .. 5 urgent)
+Graph format      : adjacency list  adj[u] = [(v, km), ...]   (JSON: nodes + edges)
+
+Algorithm pipeline (one trip, repeated until all parcels are loaded):
+  parcels --> [MERGE SORT: deadline, priority] --> [0/1 KNAPSACK DP: best load for the van]
+          --> [DIJKSTRA: road distance between stops] --> [NEAREST-NEIGHBOUR TSP: visit order]
+          --> route + arrival times + deadline check
+
+Why these techniques
+  Merge sort   : O(n log n) guaranteed and stable -> ties keep their original order
+  Knapsack DP  : optimal load, O(n*W); greedy is faster but can miss the optimum
+  Dijkstra     : shortest ROAD path (not straight line) with non-negative km weights
+  NN TSP       : visiting order is NP-hard; nearest neighbour is a fast approximation
+                 (exact Held-Karp DP used only to measure the approximation error)
+
+==============================================================================
+PHASE 2 - PACKAGE PRIORITISATION AND BOX FILLING
+==============================================================================
+Step 2a: parcels sorted by (deadline asc, priority desc) using MERGE SORT
++--------+------+----+-------+-------------+------+
+| Parcel | Dest | kg | Value | Deadline(h) | Prio |
++--------+------+----+-------+-------------+------+
+| P046   | 13   | 14 | 28    | 4.5         | 2    |
+| P024   | 26   | 8  | 48    | 5.5         | 4    |
+| P075   | 31   | 1  | 21    | 5.5         | 2    |
+| P033   | 14   | 5  | 34    | 6.0         | 2    |
+| P026   | 32   | 3  | 63    | 7.0         | 5    |
+| P077   | 31   | 11 | 42    | 9.0         | 3    |
+| P022   | 2    | 11 | 45    | 10.0        | 4    |
+| P076   | 8    | 10 | 64    | 10.5        | 5    |
+| P023   | 29   | 13 | 29    | 10.5        | 2    |
+| P048   | 2    | 8  | 49    | 13.5        | 4    |
++--------+------+----+-------+-------------+------+
+... 70 more parcels not shown
+
+All sorting algorithms on this dataset (avg of 20 runs):
++-----------+--------+-------------------------+
+| Algorithm | ms     | Same order as reference |
++-----------+--------+-------------------------+
+| merge     | 0.0906 | yes                     |
+| quick     | 0.0805 | yes                     |
+| heap      | 0.1046 | yes                     |
+| insertion | 0.1302 | yes                     |
+| timsort   | 0.0074 | yes                     |
++-----------+--------+-------------------------+
+
+Step 2b: 0/1 KNAPSACK (Dynamic Programming) for trip 1 - capacity 60 kg
+
+Trip 1 optimal value = 783   load = 60/60 kg
+Selected parcels:
++--------+------+----+-------+-------------+------+
+| Parcel | Dest | kg | Value | Deadline(h) | Prio |
++--------+------+----+-------+-------------+------+
+| P075   | 31   | 1  | 21    | 5.5         | 2    |
+| P026   | 32   | 3  | 63    | 7.0         | 5    |
+| P010   | 13   | 5  | 53    | 14.0        | 4    |
+| P007   | 1    | 6  | 52    | 16.0        | 5    |
+| P057   | 25   | 3  | 51    | 17.0        | 4    |
+| P012   | 24   | 4  | 43    | 17.5        | 4    |
+| P066   | 27   | 6  | 55    | 17.5        | 4    |
+| P073   | 13   | 4  | 54    | 19.5        | 5    |
+| P061   | 5    | 4  | 44    | 29.0        | 3    |
+| P053   | 27   | 3  | 41    | 33.0        | 3    |
+| P034   | 30   | 1  | 61    | 38.0        | 5    |
+| P039   | 11   | 5  | 42    | 40.5        | 3    |
+| P055   | 7    | 4  | 55    | 42.5        | 4    |
+| P031   | 1    | 2  | 28    | 45.5        | 2    |
+| P060   | 29   | 3  | 50    | 51.0        | 5    |
+| P038   | 4    | 3  | 49    | 54.0        | 4    |
+| P068   | 26   | 3  | 21    | 95.5        | 1    |
++--------+------+----+-------+-------------+------+
+Greedy (value/weight) would give 779 (99.5 % of the DP optimum)
+
+Packing plan (all trips):
++------+--------------------------------------------------------------------------------------+---------+-------+
+| Trip | Parcels                                                                              | Load kg | Value |
++------+--------------------------------------------------------------------------------------+---------+-------+
+| 1    | P075 P026 P010 P007 P057 P012 P066 P073 P061 P053 P034 P039 P055 P031 P060 P038 P068 | 60/60   | 783   |
+| 2    | P033 P048 P065 P029 P054 P062 P072 P006 P044 P041                                    | 60/60   | 435   |
+| 3    | P024 P076 P043 P067 P028 P049 P030                                                   | 60/60   | 361   |
+| 4    | P013 P019 P059 P063 P047 P021 P035                                                   | 60/60   | 307   |
+| 5    | P022 P016 P050 P071 P025 P079                                                        | 60/60   | 258   |
+| 6    | P077 P018 P064 P052 P014                                                             | 60/60   | 222   |
+| 7    | P008 P009 P036 P011 P045 P051                                                        | 60/60   | 178   |
+| 8    | P037 P080 P070 P002 P074                                                             | 59/60   | 151   |
+| 9    | P023 P017 P032 P015 P003                                                             | 60/60   | 135   |
+| 10   | P046 P004 P042 P020 P056 P069                                                        | 60/60   | 113   |
+| 11   | P058 P027 P078 P040                                                                  | 56/60   | 85    |
+| 12   | P001 P005                                                                            | 24/60   | 26    |
++------+--------------------------------------------------------------------------------------+---------+-------+
+
+==============================================================================
+PHASE 3 - ROUTE MAKER AND GRAPH PROCESSING
+==============================================================================
+--- Trip 1 --- parcels: P075, P026, P010, P007, P057, P012, P066, P073, P061, P053, P034, P039, P055, P031, P060, P038, P068
+Stops to visit : [1, 4, 5, 7, 11, 13, 24, 25, 26, 27, 29, 30, 31, 32]
+Nearest-neighbour tour : [0, 5, 7, 4, 27, 26, 13, 1, 24, 11, 30, 25, 32, 31, 29, 0]
+   = Depot -> Stop-5 -> Stop-7 -> Stop-4 -> Stop-27 -> Stop-26 -> Stop-13 -> Stop-1 -> Stop-24 -> Stop-11 -> Stop-30 -> Stop-25 -> Stop-32 -> Stop-31 -> Stop-29 -> Depot
+Full road path (48 nodes) : [0, 12, 5, 12, 7, 4, 3, 27, 14, 22, 19, 38, 26, 13, 26, 38, 19, 22, 14, 27, 3, 4, 7, 12, 0, 16, 1, 24, 37, 11, 30, 11, 25, 11, 37, 24, 15, 9, 32, 18, 31, 29, 31, 18, 15, 9, 20, 0]
+Route length   : 180.7 km
+With 2-opt     : 175.5 km  (2.9 % shorter)
+Schedule:
++--------+----------+---------+----------+---------+
+| Parcel | Customer | Arrival | Deadline | Status  |
++--------+----------+---------+----------+---------+
+| P075   | Stop-31  | 04h52m  | 5.5h     | ON TIME |
+| P026   | Stop-32  | 04h33m  | 7h       | ON TIME |
+| P010   | Stop-13  | 01h35m  | 14h      | ON TIME |
+| P007   | Stop-1   | 02h59m  | 16h      | ON TIME |
+| P057   | Stop-25  | 03h55m  | 17h      | ON TIME |
+| P012   | Stop-24  | 03h17m  | 17.5h    | ON TIME |
+| P066   | Stop-27  | 00h56m  | 17.5h    | ON TIME |
+| P073   | Stop-13  | 01h35m  | 19.5h    | ON TIME |
+| P061   | Stop-5   | 00h13m  | 29h      | ON TIME |
+| P053   | Stop-27  | 00h56m  | 33h      | ON TIME |
+| P034   | Stop-30  | 03h36m  | 38h      | ON TIME |
+| P039   | Stop-11  | 03h29m  | 40.5h    | ON TIME |
+| P055   | Stop-7   | 00h26m  | 42.5h    | ON TIME |
+| P031   | Stop-1   | 02h59m  | 45.5h    | ON TIME |
+| P060   | Stop-29  | 05h00m  | 51h      | ON TIME |
+| P038   | Stop-4   | 00h42m  | 54h      | ON TIME |
+| P068   | Stop-26  | 01h23m  | 95.5h    | ON TIME |
++--------+----------+---------+----------+---------+
+Trip time: leaves 00h00m, back at depot 05h41m
+
+--- Trip 2 --- parcels: P033, P048, P065, P029, P054, P062, P072, P006, P044, P041
+Stops to visit : [2, 3, 10, 14, 22, 24, 26, 32, 33, 39]
+Nearest-neighbour tour : [0, 2, 32, 24, 10, 39, 3, 14, 22, 26, 33, 0]
+   = Depot -> Stop-2 -> Stop-32 -> Stop-24 -> Stop-10 -> Stop-39 -> Stop-3 -> Stop-14 -> Stop-22 -> Stop-26 -> Stop-33 -> Depot
+Full road path (46 nodes) : [0, 20, 2, 32, 9, 15, 24, 37, 11, 10, 11, 37, 24, 15, 9, 20, 0, 12, 7, 4, 39, 3, 27, 14, 22, 19, 38, 26, 6, 23, 8, 33, 8, 23, 6, 26, 38, 19, 22, 14, 27, 3, 4, 7, 12, 0]
+Route length   : 177.6 km
+With 2-opt     : 177.6 km  (0.0 % shorter)
+Exact optimum  : 177.6 km  -> NN is 1.000 x optimal
+Schedule:
++--------+----------+---------+----------+---------+
+| Parcel | Customer | Arrival | Deadline | Status  |
++--------+----------+---------+----------+---------+
+| P033   | Stop-14  | 08h42m  | 6h       | LATE    |
+| P048   | Stop-2   | 06h06m  | 13.5h    | ON TIME |
+| P065   | Stop-39  | 08h19m  | 21.5h    | ON TIME |
+| P029   | Stop-32  | 06h16m  | 24.5h    | ON TIME |
+| P054   | Stop-3   | 08h27m  | 31.5h    | ON TIME |
+| P062   | Stop-24  | 06h35m  | 45h      | ON TIME |
+| P072   | Stop-10  | 07h00m  | 46h      | ON TIME |
+| P006   | Stop-22  | 08h50m  | 48h      | ON TIME |
+| P044   | Stop-26  | 09h09m  | 60h      | ON TIME |
+| P041   | Stop-33  | 09h40m  | 72.5h    | ON TIME |
++--------+----------+---------+----------+---------+
+Trip time: leaves 05h51m, back at depot 11h07m
+
+... 10 more trips (see the summary)
+
+==============================================================================
+FINAL SUMMARY
+==============================================================================
+Dataset              : medium_random
+Parcels delivered    : 80 / 80
+Trips needed         : 12
+Total distance       : 1608.2 km
+Finished all trips at: 48h07m
+Deadlines missed     : 15 of 80
+
+Algorithm time per step:
++----------+----------+--------+
+| Step     | Time     | Share  |
++----------+----------+--------+
+| sorting  | 0.093 ms | 2.9 %  |
+| knapsack | 1.278 ms | 40.3 % |
+| dijkstra | 1.665 ms | 52.4 % |
+| tsp      | 0.139 ms | 4.4 %  |
++----------+----------+--------+
+Average nearest-neighbour / optimal ratio over 11 trips: 1.008

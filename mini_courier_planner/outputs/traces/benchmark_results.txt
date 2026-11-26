@@ -1,0 +1,75 @@
+SORTING  (parcels sorted by deadline, priority)
+      n                    merge                    quick                     heap                insertion                  timsort
+    100                    0.113                    0.097                    0.128                    0.182                    0.010
+    500                    0.686                    0.634                    0.956                    4.869                    0.073
+   1000                    1.569                    1.522                    2.193                   20.469                    0.180
+   2000                    3.502                    3.663                    5.033                   83.850                    0.390
+   4000                    7.527                    8.103                   11.001                  344.801                    0.923
+   8000                   17.138                   18.797                   25.058                    --                       2.283
+  16000                   39.242                   37.961                   57.333                    --                       5.280
+(times in ms, best of several runs)
+
+KNAPSACK  (capacity = 500 kg)
+      n             DP 2-D table DP 1-D (space optimised)           Greedy (ratio)
+     20                    0.654                    0.433                    0.003
+     50                    1.639                    1.089                    0.008
+    100                    3.219                    2.238                    0.016
+    200                    6.139                    4.377                    0.035
+    400                   11.418                    8.677                    0.078
+    800                   23.018                   16.940                    0.160
+(times in ms, best of several runs)
+
+Knapsack correctness over 200 random instances (14 parcels, 40 kg):
+  DP == brute-force optimum : 100.0 % of cases
+  Greedy average value      : 98.6 % of optimum (optimal in only 54.5 % of cases)
+
+DIJKSTRA  (single source, V = nodes)
+      V Heap Dijkstra O((V+E)log    Array Dijkstra O(V^2)
+     50                    0.017                    0.081
+    100                    0.034                    0.300
+    200                    0.071                    1.075
+    400                    0.163                    4.183
+    800                    0.398                   17.308
+   1200                    0.607                   38.325
+(times in ms, best of several runs)
+
+TSP small  (k = stops)
+      k        Nearest neighbour               NN + 2-opt        Held-Karp (exact)
+      5                    0.002                    0.004                    0.054
+      6                    0.003                    0.009                    0.122
+      7                    0.004                    0.007                    0.289
+      8                    0.004                    0.010                    0.748
+      9                    0.005                    0.013                    1.937
+     10                    0.006                    0.016                    4.688
+     11                    0.007                    0.019                   11.525
+     12                    0.008                    0.024                   27.420
+     13                    0.009                    0.026                   81.709
+(times in ms, best of several runs)
+
+Tour length / optimal length (1.000 = optimal)
+   k    NN      NN+2opt
+   5   1.014    1.000
+   6   1.038    1.000
+   7   1.044    1.000
+   8   1.026    1.000
+   9   1.024    1.000
+  10   1.042    1.000
+  11   1.033    1.000
+  12   1.025    1.000
+  13   1.035    1.000
+ mean   1.031    1.000
+
+TSP large  (k = stops, no exact solver)
+      k        Nearest neighbour               NN + 2-opt
+     20                    0.021                    0.147
+     50                    0.107                    0.693
+    100                    0.411                    3.774
+    200                    2.106                   13.993
+    300                    4.988                   60.329
+(times in ms, best of several runs)
+
+FULL PIPELINE (time per major step, ms)
+dataset  parcels  nodes  trips    sorting   knapsack   dijkstra        tsp     total
+small         15     11      3      0.013      0.059      0.105      0.016     0.192
+medium        80     40     12      0.108      1.216      1.530      0.100     2.954
+large        600    250     50      0.966     54.464     67.884      1.079   124.393
